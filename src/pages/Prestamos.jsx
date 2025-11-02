@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Header from "../Components/Header.jsx";
 import Footer from "../Components/Footer.jsx";
 import { registrarPrestamo, registrarDevolucion, listarPrestamos, listarLibros, listarPeliculas } from "../services/inventario.js";
-import "../styles/Interno.css";
+import "../Styles/Interno.css";
 
 export default function Prestamos() {
   const [activeTab, setActiveTab] = useState("prestamo");

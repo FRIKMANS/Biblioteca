@@ -4,7 +4,7 @@ import Footer from "../Components/Footer.jsx";
 import { useAuth } from "../context/AuthContext";
 import { registrarEmpleado } from "../services/empleados.js";
 import jsPDF from "jspdf";
-import "../styles/Interno.css";
+import "../Styles/Interno.css";
 
 export default function RegistroEmpleados() {
   const [form, setForm] = useState({

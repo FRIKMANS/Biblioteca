@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Header from "../Components/Header.jsx";
 import Footer from "../Components/Footer.jsx";
 import { agregarLibro, insertarPelicula, registrarDonacion } from "../services/inventario.js";
-import "../styles/Interno.css";
+import "../Styles/Interno.css";
 
 export default function Donaciones() {
   const [form, setForm] = useState({

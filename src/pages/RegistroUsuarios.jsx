@@ -3,7 +3,7 @@ import Header from "../Components/Header.jsx";
 import Footer from "../Components/Footer.jsx";
 import { registrarUsuario } from "../services/usuarios.js";
 import jsPDF from "jspdf";
-import "../styles/Interno.css";
+import "../Styles/Interno.css";
 
 export default function RegistroUsuario() {
   const [form, setForm] = useState({
