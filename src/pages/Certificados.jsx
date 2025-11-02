@@ -3,7 +3,7 @@ import Header from "../Components/Header.jsx";
 import Footer from "../Components/Footer.jsx";
 import { listarDonaciones } from "../services/inventario.js";
 import jsPDF from "jspdf";
-import "../Styles/interno.css";
+import "../Styles/Interno.css";
 
 export default function Certificados() {
   const [donaciones, setDonaciones] = useState([]);
