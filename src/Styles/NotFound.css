@@ -1,0 +1,57 @@
+:root {
+  --gris: #555252d8;
+  --negro: #1c1c1c;
+  --mostaza: #d4af37;
+  --bg: #f3f3f5;
+  --text: #222;
+}
+
+.notfound-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa, #e3e7ed);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.notfound-box {
+  text-align: center;
+  padding: 40px;
+  background: var(--gris);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+}
+
+.notfound-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.notfound-box h2 {
+  font-size: 24px;
+  color: var(--negro);
+  margin-bottom: 12px;
+}
+
+.notfound-box p {
+  font-size: 16px;
+  color: var(--mostaza);
+  margin-bottom: 24px;
+}
+
+.notfound-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--mostaza);
+  color: var(--negro);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.notfound-button:hover {
+  background: var(--negro);
+  color: var(--mostaza);
+}
