@@ -192,9 +192,23 @@ export default function Donaciones() {
         </form>
       </div>
 
-      <dialog ref={dialogRef} className="dialog-box">
-        <p>{mensaje}</p>
-        <button onClick={() => dialogRef.current?.close()} className="btn-close">Cerrar</button>
+      <dialog 
+        ref={dialogRef} 
+        className="dialog-box"
+        aria-labelledby="dialog-title"
+        aria-describedby="dialog-description"
+      >
+        <h2 id="dialog-title" className="visually-hidden">
+          Resultado del registro
+        </h2>
+        <p id="dialog-description">{mensaje}</p>
+        <button 
+          onClick={() => dialogRef.current?.close()} 
+          className="btn-close"
+          aria-label="Cerrar diálogo"
+        >
+          Cerrar
+        </button>
       </dialog>
 
       <Footer />
