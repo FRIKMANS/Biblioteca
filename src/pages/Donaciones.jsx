@@ -121,77 +121,180 @@ export default function Donaciones() {
     }
   };
 
+  const closeDialog = () => {
+    dialogRef.current?.close();
+  };
+
   return (
     <div className="donaciones-page">
       <Header />
-      <div className="panel-content">
-        <h2 className="panel-title">Registrar Donación</h2>
+      
+      <main className="main-content">
+        <div className="panel-content">
+          <h1 className="panel-title">Registrar Donación</h1>
 
-        <form className="form-card" onSubmit={handleSubmit}>
-          <label>Nombre del Donador</label>
-          <input name="DonanteNombre" type="text" value={form.DonanteNombre} onChange={handleChange} />
+          <form className="form-card" onSubmit={handleSubmit}>
+            <label htmlFor="donante-nombre">Nombre del Donador</label>
+            <input 
+              id="donante-nombre"
+              name="DonanteNombre" 
+              type="text" 
+              value={form.DonanteNombre} 
+              onChange={handleChange} 
+            />
 
-          <label>Email del Donador</label>
-          <input name="DonanteEmail" type="email" value={form.DonanteEmail} onChange={handleChange} />
+            <label htmlFor="donante-email">Email del Donador</label>
+            <input 
+              id="donante-email"
+              name="DonanteEmail" 
+              type="email" 
+              value={form.DonanteEmail} 
+              onChange={handleChange} 
+            />
 
-          <label>Tipo de Material</label>
-          <select name="Tipo" value={form.Tipo} onChange={handleChange}>
-            <option value="">Seleccionar</option>
-            <option value="libro">Libro</option>
-            <option value="pelicula">Película</option>
-          </select>
+            <label htmlFor="tipo-material">Tipo de Material</label>
+            <select 
+              id="tipo-material"
+              name="Tipo" 
+              value={form.Tipo} 
+              onChange={handleChange}
+            >
+              <option value="">Seleccionar</option>
+              <option value="libro">Libro</option>
+              <option value="pelicula">Película</option>
+            </select>
 
-          <label>Título</label>
-          <input name="Titulo" type="text" value={form.Titulo} onChange={handleChange} />
+            <label htmlFor="titulo">Título</label>
+            <input 
+              id="titulo"
+              name="Titulo" 
+              type="text" 
+              value={form.Titulo} 
+              onChange={handleChange} 
+            />
 
-          <label>Autor / Director</label>
-          <input name="AutorDirector" type="text" value={form.AutorDirector} onChange={handleChange} />
+            <label htmlFor="autor-director">Autor / Director</label>
+            <input 
+              id="autor-director"
+              name="AutorDirector" 
+              type="text" 
+              value={form.AutorDirector} 
+              onChange={handleChange} 
+            />
 
-          {form.Tipo === "libro" && (
-            <>
-              <label>Editorial</label>
-              <input name="Editorial" type="text" value={form.Editorial} onChange={handleChange} />
+            {form.Tipo === "libro" && (
+              <>
+                <label htmlFor="editorial">Editorial</label>
+                <input 
+                  id="editorial"
+                  name="Editorial" 
+                  type="text" 
+                  value={form.Editorial} 
+                  onChange={handleChange} 
+                />
 
-              <label>Edición</label>
-              <input name="Edicion" type="text" value={form.Edicion} onChange={handleChange} />
+                <label htmlFor="edicion">Edición</label>
+                <input 
+                  id="edicion"
+                  name="Edicion" 
+                  type="text" 
+                  value={form.Edicion} 
+                  onChange={handleChange} 
+                />
 
-              <label>Número de páginas</label>
-              <input name="Num_Pags" type="number" value={form.Num_Pags} onChange={handleChange} />
+                <label htmlFor="num-pags">Número de páginas</label>
+                <input 
+                  id="num-pags"
+                  name="Num_Pags" 
+                  type="number" 
+                  value={form.Num_Pags} 
+                  onChange={handleChange} 
+                />
 
-              <label>Fecha de publicación</label>
-              <input name="Fecha_Publicacion" type="date" value={form.Fecha_Publicacion} onChange={handleChange} />
+                <label htmlFor="fecha-publicacion">Fecha de publicación</label>
+                <input 
+                  id="fecha-publicacion"
+                  name="Fecha_Publicacion" 
+                  type="date" 
+                  value={form.Fecha_Publicacion} 
+                  onChange={handleChange} 
+                />
 
-              <label>Categoría</label>
-              <input name="Categoria" type="text" value={form.Categoria} onChange={handleChange} />
-            </>
-          )}
+                <label htmlFor="categoria">Categoría</label>
+                <input 
+                  id="categoria"
+                  name="Categoria" 
+                  type="text" 
+                  value={form.Categoria} 
+                  onChange={handleChange} 
+                />
+              </>
+            )}
 
-          {form.Tipo === "pelicula" && (
-            <>
-              <label>Productora</label>
-              <input name="Productora" type="text" value={form.Productora} onChange={handleChange} />
+            {form.Tipo === "pelicula" && (
+              <>
+                <label htmlFor="productora">Productora</label>
+                <input 
+                  id="productora"
+                  name="Productora" 
+                  type="text" 
+                  value={form.Productora} 
+                  onChange={handleChange} 
+                />
 
-              <label>Género</label>
-              <input name="Genero" type="text" value={form.Genero} onChange={handleChange} />
+                <label htmlFor="genero">Género</label>
+                <input 
+                  id="genero"
+                  name="Genero" 
+                  type="text" 
+                  value={form.Genero} 
+                  onChange={handleChange} 
+                />
 
-              <label>Clasificación</label>
-              <input name="Clasificacion" type="text" value={form.Clasificacion} onChange={handleChange} />
+                <label htmlFor="clasificacion">Clasificación</label>
+                <input 
+                  id="clasificacion"
+                  name="Clasificacion" 
+                  type="text" 
+                  value={form.Clasificacion} 
+                  onChange={handleChange} 
+                />
 
-              <label>Duración (minutos)</label>
-              <input name="Duracion" type="number" value={form.Duracion} onChange={handleChange} />
+                <label htmlFor="duracion">Duración (minutos)</label>
+                <input 
+                  id="duracion"
+                  name="Duracion" 
+                  type="number" 
+                  value={form.Duracion} 
+                  onChange={handleChange} 
+                />
 
-              <label>Fecha de estreno</label>
-              <input name="Fecha_estreno" type="date" value={form.Fecha_estreno} onChange={handleChange} />
-            </>
-          )}
+                <label htmlFor="fecha-estreno">Fecha de estreno</label>
+                <input 
+                  id="fecha-estreno"
+                  name="Fecha_estreno" 
+                  type="date" 
+                  value={form.Fecha_estreno} 
+                  onChange={handleChange} 
+                />
+              </>
+            )}
 
-          <label>Cantidad disponible</label>
-          <input name="Disponible" type="number" value={form.Disponible} onChange={handleChange} />
+            <label htmlFor="disponible">Cantidad disponible</label>
+            <input 
+              id="disponible"
+              name="Disponible" 
+              type="number" 
+              value={form.Disponible} 
+              onChange={handleChange} 
+            />
 
-          <button type="submit" className="btn-primary">Registrar</button>
-        </form>
-      </div>
+            <button type="submit" className="btn-primary">Registrar</button>
+          </form>
+        </div>
+      </main>
 
+    
       <dialog 
         ref={dialogRef} 
         className="dialog-box"
@@ -201,11 +304,10 @@ export default function Donaciones() {
         <h2 id="dialog-title" className="visually-hidden">
           Resultado del registro
         </h2>
-        <p id="dialog-description">{mensaje}</p>
+        <div id="dialog-description">{mensaje}</div>
         <button 
-          onClick={() => dialogRef.current?.close()} 
+          onClick={closeDialog} 
           className="btn-close"
-          aria-label="Cerrar diálogo"
         >
           Cerrar
         </button>
