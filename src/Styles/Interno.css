@@ -1,3 +1,54 @@
+/* Estilos para elementos ocultos */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Estructura principal */
+.main-content {
+  flex: 1;
+  width: 100%;
+}
+
+.donaciones-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Estilos para el diálogo */
+.dialog-box {
+  border: none;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.dialog-box::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.btn-close {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  background: #5a6268;
+}
+
 /* ---- Layout General ---- */
 .panel-page, .donaciones-page, .certificados-page {
   width: 100%;
