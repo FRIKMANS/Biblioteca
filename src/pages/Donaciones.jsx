@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Header from "../Components/Header.jsx";
 import Footer from "../Components/Footer.jsx";
 import { agregarLibro, insertarPelicula, registrarDonacion } from "../services/inventario.js";
@@ -25,6 +25,23 @@ export default function Donaciones() {
   });
   const [mensaje, setMensaje] = useState("");
   const dialogRef = useRef(null);
+
+  // Efecto para limpiar aria-hidden problemáticos
+  useEffect(() => {
+    // Buscar y eliminar aria-hidden problemáticos en todo el documento
+    const problematicElements = document.querySelectorAll('[aria-hidden="true"]');
+    
+    problematicElements.forEach(element => {
+      const focusableElements = element.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      
+      if (focusableElements.length > 0) {
+        // Remover aria-hidden si contiene elementos enfocables
+        element.removeAttribute('aria-hidden');
+      }
+    });
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -127,6 +144,7 @@ export default function Donaciones() {
 
   return (
     <div className="donaciones-page">
+  
       <Header />
       
       <main className="main-content">
@@ -141,6 +159,7 @@ export default function Donaciones() {
               type="text" 
               value={form.DonanteNombre} 
               onChange={handleChange} 
+              required
             />
 
             <label htmlFor="donante-email">Email del Donador</label>
@@ -150,6 +169,7 @@ export default function Donaciones() {
               type="email" 
               value={form.DonanteEmail} 
               onChange={handleChange} 
+              required
             />
 
             <label htmlFor="tipo-material">Tipo de Material</label>
@@ -158,6 +178,7 @@ export default function Donaciones() {
               name="Tipo" 
               value={form.Tipo} 
               onChange={handleChange}
+              required
             >
               <option value="">Seleccionar</option>
               <option value="libro">Libro</option>
@@ -171,6 +192,7 @@ export default function Donaciones() {
               type="text" 
               value={form.Titulo} 
               onChange={handleChange} 
+              required
             />
 
             <label htmlFor="autor-director">Autor / Director</label>
@@ -180,10 +202,11 @@ export default function Donaciones() {
               type="text" 
               value={form.AutorDirector} 
               onChange={handleChange} 
+              required
             />
 
             {form.Tipo === "libro" && (
-              <>
+              <div role="region" aria-label="Detalles del libro">
                 <label htmlFor="editorial">Editorial</label>
                 <input 
                   id="editorial"
@@ -228,11 +251,11 @@ export default function Donaciones() {
                   value={form.Categoria} 
                   onChange={handleChange} 
                 />
-              </>
+              </div>
             )}
 
             {form.Tipo === "pelicula" && (
-              <>
+              <div role="region" aria-label="Detalles de la película">
                 <label htmlFor="productora">Productora</label>
                 <input 
                   id="productora"
@@ -277,7 +300,7 @@ export default function Donaciones() {
                   value={form.Fecha_estreno} 
                   onChange={handleChange} 
                 />
-              </>
+              </div>
             )}
 
             <label htmlFor="disponible">Cantidad disponible</label>
@@ -287,6 +310,7 @@ export default function Donaciones() {
               type="number" 
               value={form.Disponible} 
               onChange={handleChange} 
+              min="1"
             />
 
             <button type="submit" className="btn-primary">Registrar</button>
@@ -294,7 +318,6 @@ export default function Donaciones() {
         </div>
       </main>
 
-    
       <dialog 
         ref={dialogRef} 
         className="dialog-box"
