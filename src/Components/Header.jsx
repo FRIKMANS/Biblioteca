@@ -26,7 +26,7 @@ export default function Header() {
           {user ? (
             <>
               <Link to="/panel" className="nav-link">Panel</Link>
-              {/* Cambiar a botón con clase específica */}
+              
               <button 
                 className="logout-btn" 
                 onClick={logout}

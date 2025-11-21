@@ -335,7 +335,7 @@ export default function Prestamos() {
             </div>
           </div>
 
-          <div className="container">
+          <div className="container" data-aria-hidden="true" aria-hidden="true">
             <table className="tabla-inventario">
               <thead>
                 <tr>
