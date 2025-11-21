@@ -1,4 +1,4 @@
-const API = "https://huitzilapps.com/biblioteca_api";
+const API = "https://proyecto-progint2.rf.gd/biblioteca_api";
 
 export async function loginRequest(username, password) {
   const res = await fetch(`${API}/login.php`, {
