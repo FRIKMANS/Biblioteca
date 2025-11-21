@@ -25,23 +25,57 @@ export default function Donaciones() {
   });
   const [mensaje, setMensaje] = useState("");
   const dialogRef = useRef(null);
+  const modifiedAriaRef = useRef(new Set());
 
-  // Efecto para limpiar aria-hidden problemáticos
-  useEffect(() => {
-    // Buscar y eliminar aria-hidden problemáticos en todo el documento
-    const problematicElements = document.querySelectorAll('[aria-hidden="true"]');
-    
-    problematicElements.forEach(element => {
-      const focusableElements = element.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      
-      if (focusableElements.length > 0) {
-        // Remover aria-hidden si contiene elementos enfocables
-        element.removeAttribute('aria-hidden');
+  // ...existing code...
+  // Modal accessibility: hide background from assistive tech only while dialog is open
+  const setBackgroundAriaHidden = (hidden) => {
+    const dialogEl = dialogRef.current;
+    if (!dialogEl) return;
+    const bodyChildren = Array.from(document.body.children);
+    bodyChildren.forEach((el) => {
+      if (el === dialogEl) return;
+      if (hidden) {
+        // Only set aria-hidden on elements that don't already have it, and track them
+        if (!el.hasAttribute("aria-hidden")) {
+          el.setAttribute("aria-hidden", "true");
+          modifiedAriaRef.current.add(el);
+        }
+      } else {
+        // Restore only those we modified
+        if (modifiedAriaRef.current.has(el)) {
+          el.removeAttribute("aria-hidden");
+          modifiedAriaRef.current.delete(el);
+        }
       }
     });
+  };
+
+  useEffect(() => {
+    // Cleanup on unmount: remove aria-hidden from any elements we modified
+    return () => {
+      modifiedAriaRef.current.forEach((el) => {
+        try {
+          el.removeAttribute("aria-hidden");
+        } catch (e) {
+          // ignore
+        }
+      });
+      modifiedAriaRef.current.clear();
+    };
   }, []);
+
+  const openDialog = (msg) => {
+    setMensaje(msg);
+    setBackgroundAriaHidden(true);
+    dialogRef.current?.showModal();
+  };
+
+  const closeDialog = () => {
+    dialogRef.current?.close();
+    setBackgroundAriaHidden(false);
+  };
+  // ...existing code...
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -123,25 +157,20 @@ export default function Donaciones() {
 
       await registrarDonacion(donacionData);
 
-      setMensaje("Material y donación registrados correctamente");
-      dialogRef.current?.showModal();
+      openDialog("Material y donación registrados correctamente");
       setTimeout(() => {
-        dialogRef.current?.close();
+        closeDialog();
         resetForm();
       }, 2500);
 
     } catch (err) {
       console.error("Error:", err);
-      setMensaje("❌ " + err.message);
-      dialogRef.current?.showModal();
-      setTimeout(() => dialogRef.current?.close(), 2500);
+      openDialog("❌ " + err.message);
+      setTimeout(() => closeDialog(), 2500);
     }
   };
 
-  const closeDialog = () => {
-    dialogRef.current?.close();
-  };
-
+  // ...existing code...
   return (
     <div className="donaciones-page">
   
