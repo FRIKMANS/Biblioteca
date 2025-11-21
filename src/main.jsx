@@ -8,7 +8,7 @@ import PrivateRoute from "./Components/PrivateRoute.jsx";
 import App from "./App.jsx";
 import Inventario from "./Inventario.jsx";
 import Login from "./pages/Login.jsx";
-import Donaciones from "../pages/Donaciones.jsx";
+import Donaciones from "./pages/Donaciones.jsx";
 import Certificados from "./pages/Certificados.jsx";
 import Panel from "./pages/Panel.jsx";
 import NoAuth from "./pages/NoAuth.jsx";
