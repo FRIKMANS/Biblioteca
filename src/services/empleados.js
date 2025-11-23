@@ -24,7 +24,7 @@ export const createEmpleadoService = (authFetch) => {
       if (!contentType?.includes("application/json")) {
         throw new Error("Respuesta inesperada del servidor");
       }
-
+ 
       const json = await response.json();
       
 
