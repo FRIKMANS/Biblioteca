@@ -33,7 +33,7 @@ export const createEmpleadoService = (authFetch) => {
   return {
     registrarEmpleado: async (data) => {
       try {
-        console.log('📤 Registrando empleado:', { 
+        console.log('Registrando empleado:', { 
           data: { ...data, password: '***' }, 
           timestamp: new Date().toISOString()
         });
@@ -79,7 +79,7 @@ export const createEmpleadoService = (authFetch) => {
           throw error;
         }
 
-        console.log('✅ Empleado registrado exitosamente:', {
+        console.log('Empleado registrado exitosamente:', {
           id: json.id,
           timestamp: new Date().toISOString()
         });
