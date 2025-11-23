@@ -26,6 +26,8 @@ export default function Prestamos() {
     Fecha_Devolucion_Real: new Date().toISOString().split('T')[0]
   });
 
+  const [errores, setErrores] = useState({});
+
   useEffect(() => {
     cargarPrestamos();
   }, [busqueda, filtroEstado]);
@@ -45,21 +47,47 @@ export default function Prestamos() {
   const cargarPrestamos = async () => {
     try {
       const data = await listarPrestamos({ q: busqueda, estado: filtroEstado });
-      setPrestamos(data);
+      // Marcar préstamos atrasados
+      const prestamosConAtraso = data.map(prestamo => {
+        if (prestamo.Estado === 'prestado') {
+          const hoy = new Date();
+          const fechaDevolucion = new Date(prestamo.Fecha_Devolucion);
+   
+          if (fechaDevolucion < hoy && !prestamo.Fecha_Devolucion_Real) {
+            return { ...prestamo, Estado: 'atrasado' };
+          }
+        }
+        return prestamo;
+      });
+      setPrestamos(prestamosConAtraso);
     } catch (error) {
       console.error("Error cargando préstamos:", error);
-      setMensaje("❌ " + error.message);
+      setMensaje("Error " + error.message);
     }
   };
 
   const handlePrestamoChange = (e) => {
     const { name, value } = e.target;
     setFormPrestamo(prev => ({ ...prev, [name]: value }));
+    
+    if (errores[name]) {
+      setErrores(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleDevolucionChange = (e) => {
     const { name, value } = e.target;
     setFormDevolucion(prev => ({ ...prev, [name]: value }));
+    
+    // Validar fecha de devolución real
+    if (name === 'Fecha_Devolucion_Real') {
+      const hoy = new Date().toISOString().split('T')[0];
+      if (value < hoy) {
+        setErrores(prev => ({ ...prev, Fecha_Devolucion_Real: 'La fecha de devolución no puede ser anterior a la fecha actual' }));
+      } else {
+        setErrores(prev => ({ ...prev, Fecha_Devolucion_Real: '' }));
+      }
+    }
   };
 
   const calcularFechaDevolucion = (fechaPrestamo, dias = 15) => {
@@ -70,12 +98,45 @@ export default function Prestamos() {
 
   const handleFechaPrestamoChange = (e) => {
     const fechaPrestamo = e.target.value;
+    const hoy = new Date().toISOString().split('T')[0];
+    
+    // Validar que la fecha de préstamo no sea futura
+    if (fechaPrestamo > hoy) {
+      setErrores(prev => ({ ...prev, Fecha_Prestamo: 'La fecha de préstamo no puede ser futura' }));
+      return;
+    } else {
+      setErrores(prev => ({ ...prev, Fecha_Prestamo: '' }));
+    }
+
     const fechaDevolucion = calcularFechaDevolucion(fechaPrestamo);
     setFormPrestamo(prev => ({
       ...prev,
       Fecha_Prestamo: fechaPrestamo,
       Fecha_Devolucion: fechaDevolucion
     }));
+  };
+
+  const validarFormularioPrestamo = () => {
+    const nuevosErrores = {};
+    const hoy = new Date().toISOString().split('T')[0];
+
+    // Validar fecha de préstamo
+    if (formPrestamo.Fecha_Prestamo > hoy) {
+      nuevosErrores.Fecha_Prestamo = 'La fecha de préstamo no puede ser futura';
+    }
+
+    // Validar fecha de devolución
+    if (formPrestamo.Fecha_Devolucion < hoy) {
+      nuevosErrores.Fecha_Devolucion = 'La fecha de devolución no puede ser anterior a la fecha actual';
+    }
+
+    // Validar fecha de devolución posterior a la de préstamo
+    if (formPrestamo.Fecha_Devolucion <= formPrestamo.Fecha_Prestamo) {
+      nuevosErrores.Fecha_Devolucion = 'La fecha de devolución debe ser posterior a la fecha de préstamo';
+    }
+
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
   };
 
   const handleRegistrarPrestamo = async (e) => {
@@ -87,8 +148,13 @@ export default function Prestamos() {
         throw new Error("Todos los campos son requeridos");
       }
 
+      // Validar fechas
+      if (!validarFormularioPrestamo()) {
+        throw new Error("Por favor corrige los errores en el formulario");
+      }
+
       await registrarPrestamo(formPrestamo);
-      setMensaje("✅ Préstamo registrado correctamente");
+      setMensaje("Préstamo registrado correctamente");
       
       setFormPrestamo({
         Tipo_Material: "libro",
@@ -103,7 +169,7 @@ export default function Prestamos() {
       
     } catch (error) {
       console.error("Error:", error);
-      setMensaje("❌ " + error.message);
+      setMensaje("Error " + error.message);
     }
   };
 
@@ -116,8 +182,14 @@ export default function Prestamos() {
         throw new Error("ID de préstamo es requerido");
       }
 
+      // Validar fecha de devolución real
+      const hoy = new Date().toISOString().split('T')[0];
+      if (formDevolucion.Fecha_Devolucion_Real < hoy) {
+        throw new Error("La fecha de devolución no puede ser anterior a la fecha actual");
+      }
+
       await registrarDevolucion(formDevolucion);
-      setMensaje("✅ Devolución registrada correctamente");
+      setMensaje("Devolución registrada correctamente");
       
       setFormDevolucion({
         ID_Prestamo: "",
@@ -128,7 +200,7 @@ export default function Prestamos() {
       
     } catch (error) {
       console.error("Error:", error);
-      setMensaje("❌ " + error.message);
+      setMensaje("Error " + error.message);
     }
   };
 
@@ -245,8 +317,14 @@ export default function Prestamos() {
                         type="date" 
                         value={formPrestamo.Fecha_Prestamo} 
                         onChange={handleFechaPrestamoChange}
+                        max={new Date().toISOString().split('T')[0]} // No permite fechas futuras
                         required
                       />
+                      {errores.Fecha_Prestamo && (
+                        <span className="error-message" style={{color: 'red', fontSize: '12px'}}>
+                          {errores.Fecha_Prestamo}
+                        </span>
+                      )}
                     </div>
 
                     <div className="form-group">
@@ -256,8 +334,14 @@ export default function Prestamos() {
                         type="date" 
                         value={formPrestamo.Fecha_Devolucion} 
                         onChange={handlePrestamoChange}
+                        min={new Date().toISOString().split('T')[0]} // No permite fechas pasadas
                         required
                       />
+                      {errores.Fecha_Devolucion && (
+                        <span className="error-message" style={{color: 'red', fontSize: '12px'}}>
+                          {errores.Fecha_Devolucion}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -292,8 +376,14 @@ export default function Prestamos() {
                         type="date" 
                         value={formDevolucion.Fecha_Devolucion_Real} 
                         onChange={handleDevolucionChange}
+                        min={new Date().toISOString().split('T')[0]} // No permite fechas pasadas
                         required
                       />
+                      {errores.Fecha_Devolucion_Real && (
+                        <span className="error-message" style={{color: 'red', fontSize: '12px'}}>
+                          {errores.Fecha_Devolucion_Real}
+                        </span>
+                      )}
                     </div>
                   </div>
 
@@ -399,7 +489,6 @@ export default function Prestamos() {
         </section>
       </main>
 
-      {/* Dialog para mensajes */}
       <dialog ref={dialogRef} className="dialog-box">
         <div className="dialog-content">
           <p>{mensaje}</p>
