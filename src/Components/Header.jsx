@@ -28,9 +28,9 @@ export default function Header() {
               <Link to="/panel" className="nav-link">Panel</Link>
               
               <button 
-                className="logout-btn" 
+                className="nav-link" 
                 onClick={logout}
-                aria-label="Cerrar sesión"
+                aria-label="Salir"
               >
                 Cerrar sesión
               </button>
