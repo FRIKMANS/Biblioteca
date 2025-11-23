@@ -11,17 +11,13 @@ export async function registrarUsuario(data) {
     body: JSON.stringify(data),
   });
 
-  const contentType = res.headers.get("content-type");
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error("Error al registrar usuario: " + errorText.slice(0, 100));
   }
 
-  if (contentType && contentType.includes("application/json")) {
-    return await res.json();
-  } else {
-    throw new Error("Respuesta inesperada del servidor al registrar usuario");
-  }
+  const json = await res.json();
+  return json;
 }
 
 export async function listarUsuarios() {
@@ -31,15 +27,11 @@ export async function listarUsuarios() {
     },
   });
 
-  const contentType = res.headers.get("content-type");
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error("Error al cargar usuarios: " + errorText.slice(0, 100));
   }
 
-  if (contentType && contentType.includes("application/json")) {
-    return await res.json();
-  } else {
-    throw new Error("Respuesta inesperada del servidor al cargar usuarios");
-  }
+  const json = await res.json();
+  return json;
 }
