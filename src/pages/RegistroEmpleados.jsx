@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Header from "../Components/Header.jsx";
 import Footer from "../Components/Footer.jsx";
 import { useAuth } from "../context/AuthContext";
-import { empleadoService } from "../services/empleados.js";
+import { registrarEmpleado } from "../services/empleados.js";
 import jsPDF from "jspdf";
 import "../Styles/Interno.css";
 
@@ -24,7 +24,7 @@ export default function RegistroEmpleados() {
 
   useEffect(() => {
     if (!authLoading && user && user.rol !== "admin") {
-      setMensaje("❌ No tienes permisos de administrador. Redirigiendo...");
+      setMensaje("No tienes permisos de administrador. Redirigiendo...");
       dialogRef.current?.showModal();
       setTimeout(() => (window.location.href = "/"), 2000);
     }
@@ -32,7 +32,7 @@ export default function RegistroEmpleados() {
 
   useEffect(() => {
     if (!authLoading && !user) {
-      setMensaje("❌ No hay sesión activa. Redirigiendo al login...");
+      setMensaje("No hay sesión activa. Redirigiendo al login...");
       dialogRef.current?.showModal();
       setTimeout(() => (window.location.href = "/login"), 2000);
     }
@@ -75,56 +75,60 @@ export default function RegistroEmpleados() {
   };
 
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMensaje("");
-    setCargando(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setMensaje("");
+  setCargando(true);
 
-    try {
-      if (!form.username.trim() || !form.nombre.trim() || !form.password) {
-        throw new Error("Todos los campos son obligatorios");
-      }
-      if (form.password.length < 6) {
-        throw new Error("La contraseña debe tener al menos 6 caracteres");
-      }
-      if (form.password !== form.confirmPassword) {
-        throw new Error("Las contraseñas no coinciden");
-      }
-
-      const empleadoData = {
-        username: form.username.trim(),
-        nombre: form.nombre.trim(),
-        password: form.password,
-        rol: form.rol
-      };
-
-
-      const res = await empleadoService(authFetch, empleadoData);
-
-      if (!res.ok) {
-        throw new Error(res.error || "Error al registrar empleado");
-      }
-
-      const fecha = new Date().toLocaleDateString("es-ES");
-      generarCredencialPDF(form.username, form.nombre, form.rol, fecha);
-
-      setMensaje("✅ Empleado registrado y credencial generada correctamente");
-      dialogRef.current?.showModal();
-
-      setTimeout(() => {
-        dialogRef.current?.close();
-        resetForm();
-      }, 3000);
-
-    } catch (err) {
-      setMensaje("❌ " + err.message);
-      dialogRef.current?.showModal();
-      setTimeout(() => dialogRef.current?.close(), 3000);
-
-    } finally {
-      setCargando(false);
+  try {
+  
+    if (!form.username.trim() || !form.nombre.trim() || !form.password) {
+      throw new Error("Todos los campos son obligatorios");
     }
-  };
+    if (form.password.length < 6) {
+      throw new Error("La contraseña debe tener al menos 6 caracteres");
+    }
+    if (form.password !== form.confirmPassword) {
+      throw new Error("Las contraseñas no coinciden");
+    }
+
+    const empleadoData = {
+      username: form.username.trim(),
+      nombre: form.nombre.trim(),
+      password: form.password,
+      rol: form.rol
+    };
+
+    console.log('Enviando datos:', empleadoData);
+
+    const respuesta = await registrarEmpleado(empleadoData);
+    console.log('Respuesta recibida:', respuesta);
+
+    if (respuesta && respuesta.ok === false) {
+      throw new Error(respuesta.error || "Error al registrar empleado");
+    }
+
+    const fecha = new Date().toLocaleDateString("es-ES");
+    generarCredencialPDF(form.username, form.nombre, form.rol, fecha);
+
+    setMensaje("Empleado registrado y credencial generada correctamente");
+    dialogRef.current?.showModal();
+
+    setTimeout(() => {
+      dialogRef.current?.close();
+      resetForm();
+    }, 3000);
+
+  } catch (err) {
+    console.error('Error en handleSubmit:', err);
+    setMensaje("Error: " + err.message);
+    dialogRef.current?.showModal();
+    setTimeout(() => dialogRef.current?.close(), 3000);
+
+  } finally {
+    setCargando(false);
+  }
+};
 
 
   if (authLoading) {
