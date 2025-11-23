@@ -194,7 +194,7 @@ export default function App() {
 
                   <h3>Cerca de aquí</h3>
 
-                  <p>Talleres, lecturas y eventos comunitarios.</p>
+                  <p>Novedades cerca de ti.</p>
 
               </article>
 
