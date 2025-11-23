@@ -29,7 +29,7 @@ export const createEmpleadoService = (authFetch) => {
 export async function registrarEmpleado(data) {
 
   const payload = {
-    username: data.usernametoLowerCase().replace(/\s/g, ""),
+    username: data.username,
     nombre: data.nombre,
     password: data.password,
     rol: data.rol,
