@@ -3,11 +3,13 @@ const API_KEY = "aserejeajaeje";
 
 export const empleadoService = {
   registrarEmpleado: async (data) => {
-    console.log('Enviando datos a:', `${API_URL}/empleados_registrar.php`);
+    const url = `${API_URL}/empleados_registrar.php`;
+    
+    console.log('Enviando POST a:', url);
     console.log('Datos:', { ...data, password: '***' });
     
     try {
-      const response = await fetch(`${API_URL}/empleados_registrar.php`, {
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -16,7 +18,8 @@ export const empleadoService = {
         body: JSON.stringify(data),
       });
 
-      console.log('Status de respuesta:', response.status, response.statusText);
+      console.log('Response status:', response.status, response.statusText);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -37,6 +40,12 @@ export const empleadoService = {
 
     } catch (error) {
       console.error('Error en el servicio:', error.message);
+      
+    
+      if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+        throw new Error('Error de conexión o CORS. Verifica la URL y la configuración del servidor.');
+      }
+      
       throw error;
     }
   }
