@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Header from "../Components/Header.jsx";
 import Footer from "../Components/Footer.jsx";
 import { useAuth } from "../context/AuthContext";
-import { createEmpleadoService } from "../services/empleados.js";
+import { empleadoService } from "../services/empleados.js";
 import jsPDF from "jspdf";
 import "../Styles/Interno.css";
 
@@ -99,7 +99,7 @@ export default function RegistroEmpleados() {
       };
 
 
-      const res = await createEmpleadoService(authFetch, empleadoData);
+      const res = await empleadoService(authFetch, empleadoData);
 
       if (!res.ok) {
         throw new Error(res.error || "Error al registrar empleado");
