@@ -12,7 +12,8 @@ export default function Header() {
           <img 
             src="/img/Logo.png" 
             alt="Logo Municipio" 
-            className="logo-placeholder" 
+            className="logo-placeholder"
+            onClick={"/"} 
           />
           <div className="brand-text">
             <h1>Biblioteca Ejidal</h1>
