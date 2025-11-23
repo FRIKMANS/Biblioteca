@@ -166,7 +166,7 @@ export default function App() {
 
                   <h3>Feria el empleo</h3>
 
-                  <p>Consulta y lleva libros en préstamo a casa.</p>
+                  <p>Sé parte de la feria del empleo y encuentra nuevas oportunidades laborales.</p>
 
               </article>
 
@@ -180,7 +180,7 @@ export default function App() {
 
                   <h3>Deportes</h3>
 
-                  <p>Acceso a equipos y recursos digitales.</p>
+                  <p>Participa en actividades deportivas y mantente activo.</p>
 
               </article>
 
