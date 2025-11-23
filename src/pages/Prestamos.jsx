@@ -254,7 +254,7 @@ export default function Prestamos() {
                   
                   <div className="form-row">
                     <div className="form-group">
-                      <label>Tipo de Material *</label>
+                      <label>Tipo de Material</label>
                       <select 
                         name="Tipo_Material" 
                         value={formPrestamo.Tipo_Material} 
@@ -267,7 +267,7 @@ export default function Prestamos() {
                     </div>
 
                     <div className="form-group">
-                      <label>ID del Material *</label>
+                      <label>ID del Material</label>
                       <input 
                         name="ID_Material" 
                         type="text" 
@@ -281,7 +281,7 @@ export default function Prestamos() {
 
                   <div className="form-row">
                     <div className="form-group">
-                      <label>ID Usuario *</label>
+                      <label>ID Usuario</label>
                       <input 
                         name="ID_Usuario" 
                         type="number" 
@@ -293,7 +293,7 @@ export default function Prestamos() {
                     </div>
 
                     <div className="form-group">
-                      <label>Nombre Usuario *</label>
+                      <label>Nombre Usuario</label>
                       <input 
                         name="Nombre_Usuario" 
                         type="text" 
@@ -307,7 +307,7 @@ export default function Prestamos() {
 
                   <div className="form-row">
                     <div className="form-group">
-                      <label>Fecha de Préstamo *</label>
+                      <label>Fecha de Préstamo</label>
                       <input 
                         name="Fecha_Prestamo" 
                         type="date" 
@@ -322,13 +322,10 @@ export default function Prestamos() {
                           {errores.Fecha_Prestamo}
                         </span>
                       )}
-                      <small style={{color: '#666', fontSize: '12px'}}>
-                        La fecha de préstamo es automáticamente la fecha actual
-                      </small>
                     </div>
 
                     <div className="form-group">
-                      <label>Fecha de Devolución Esperada *</label>
+                      <label>Fecha de Devolución</label>
                       <input 
                         name="Fecha_Devolucion" 
                         type="date" 
@@ -343,9 +340,6 @@ export default function Prestamos() {
                           {errores.Fecha_Devolucion}
                         </span>
                       )}
-                      <small style={{color: '#666', fontSize: '12px'}}>
-                        Calculada automáticamente (15 días después del préstamo)
-                      </small>
                     </div>
                   </div>
 
@@ -362,7 +356,7 @@ export default function Prestamos() {
                   
                   <div className="form-row">
                     <div className="form-group">
-                      <label>ID del Préstamo *</label>
+                      <label>ID del Préstamo</label>
                       <input 
                         name="ID_Prestamo" 
                         type="number" 
@@ -374,7 +368,7 @@ export default function Prestamos() {
                     </div>
 
                     <div className="form-group">
-                      <label>Fecha de Devolución Real *</label>
+                      <label>Fecha de Devolución Real</label>
                       <input 
                         name="Fecha_Devolucion_Real" 
                         type="date" 
@@ -384,9 +378,6 @@ export default function Prestamos() {
                         className="readonly-input"
                         required
                       />
-                      <small style={{color: '#666', fontSize: '12px'}}>
-                        La fecha de devolución es automáticamente la fecha actual
-                      </small>
                     </div>
                   </div>
 
@@ -460,8 +451,6 @@ export default function Prestamos() {
                     <td>{prestamo.ID_Material}</td>
                     <td>
                       <strong>{prestamo.Nombre_Usuario}</strong>
-                      <br />
-                      <small>ID: {prestamo.ID_Usuario}</small>
                     </td>
                     <td>{formatearFecha(prestamo.Fecha_Prestamo)}</td>
                     <td>{formatearFecha(prestamo.Fecha_Devolucion)}</td>
