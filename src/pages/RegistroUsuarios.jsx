@@ -84,7 +84,7 @@ export default function RegistroUsuario() {
       }, 2500);
 
     } catch (err) {
-      console.error("💥 Error en registro:", err);
+      console.error("Error en registro:", err);
       setMensaje("Error: " + err.message);
       dialogRef.current?.showModal();
       setTimeout(() => dialogRef.current?.close(), 2500);
@@ -122,7 +122,7 @@ export default function RegistroUsuario() {
           <label>Teléfono</label>
           <input 
             name="Telefono" 
-            type="text" 
+            type="number" 
             value={form.Telefono} 
             onChange={handleChange} 
             disabled={cargando}

@@ -21,11 +21,11 @@ export default function ListaUsuarios() {
       setError("");
       
       const data = await listarUsuarios();
-      console.log("✅ Usuarios cargados:", data);
+      console.log("Usuarios cargados:", data);
       setUsuarios(data);
       
     } catch (error) {
-      console.error("❌ Error cargando usuarios:", error);
+      console.error("Error cargando usuarios:", error);
       setError("Error al cargar usuarios: " + error.message);
     } finally {
       setCargando(false);
