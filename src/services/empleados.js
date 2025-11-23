@@ -27,16 +27,25 @@ export const createEmpleadoService = (authFetch) => {
 };
 
 export async function registrarEmpleado(data) {
+
+  const payload = {
+    username: data.usernametoLowerCase().replace(/\s/g, ""),
+    nombre: data.nombre,
+    password: data.password,
+    rol: data.rol,
+  };
+
   const res = await fetch(`${API_URL}/empleados_registrar.php`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "X-API-KEY": API_KEY,
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
   });
 
   const contentType = res.headers.get("content-type");
+
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error("Error al registrar empleado: " + errorText.slice(0, 100));
