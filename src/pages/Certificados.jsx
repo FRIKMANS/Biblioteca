@@ -41,7 +41,7 @@ export default function Certificados() {
 
     doc.setFontSize(12);
     doc.setFont("helvetica", "normal");
-    doc.text(`Se otorga el presente reconocimiento a:`, 20, 50);
+    doc.text(`Se otorga el presente reconocimiento a: `, 20, 50);
     doc.setFont("helvetica", "bold");
     doc.text(donacion.DonanteNombre, 90, 50);
 
@@ -53,8 +53,7 @@ export default function Certificados() {
     );
     doc.text(`Cantidad donada: ${donacion.Cantidad} ejemplares`, 20, 73);
     doc.text(`Motivo: ${motivo}`, 20, 81);
-    doc.text(`Fecha de emisión: ${fecha}`, 20, 89);
-
+ 
     doc.line(20, 120, 190, 120);
     doc.text("Firma del Encargado de Biblioteca", 60, 130);
 
